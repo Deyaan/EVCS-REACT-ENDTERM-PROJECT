@@ -1,0 +1,39 @@
+// firestore.rules
+// Deploy with: firebase deploy --only firestore:rules
+// Or paste this in Firebase Console → Firestore → Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can read/write their own profile
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Stations:
+    // - Anyone logged in can read
+    // - Only owners can create/update/delete their own stations
+    match /stations/{stationId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.resource.data.ownerId == request.auth.uid;
+      allow update: if request.auth != null
+        && (resource.data.ownerId == request.auth.uid
+            || isQueueUpdate(request.resource.data, resource.data));
+      allow delete: if request.auth != null
+        && resource.data.ownerId == request.auth.uid;
+    }
+
+    // Queue logs: anyone logged in can create, no reads needed from client
+    match /queueLogs/{logId} {
+      allow create: if request.auth != null;
+      allow read: if false;
+    }
+
+    // Helper: allow queue updates (only currentQueue field changes)
+    function isQueueUpdate(newData, oldData) {
+      return newData.diff(oldData).affectedKeys().hasOnly(['currentQueue']);
+    }
+  }
+}

@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0A0E1A;
+    color: #F9FAFB;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #1F2937 transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #1F2937;
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-ev-green text-ev-dark font-semibold px-5 py-2.5 rounded-xl hover:bg-opacity-90 active:scale-95 transition-all duration-150 text-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-ev-card border border-ev-border text-gray-200 font-medium px-5 py-2.5 rounded-xl hover:bg-ev-border active:scale-95 transition-all duration-150 text-sm;
+  }
+
+  .btn-danger {
+    @apply bg-ev-red bg-opacity-10 border border-ev-red border-opacity-30 text-ev-red font-medium px-5 py-2.5 rounded-xl hover:bg-opacity-20 active:scale-95 transition-all duration-150 text-sm;
+  }
+
+  .card {
+    @apply bg-ev-card border border-ev-border rounded-2xl;
+  }
+
+  .input {
+    @apply bg-ev-dark border border-ev-border rounded-xl px-4 py-2.5 text-sm text-gray-100 placeholder-ev-muted focus:outline-none focus:border-ev-green focus:ring-1 focus:ring-ev-green transition-colors w-full;
+  }
+
+  .label {
+    @apply text-xs font-medium text-ev-muted uppercase tracking-wider mb-1.5 block;
+  }
+
+  .status-available {
+    @apply text-ev-green bg-ev-green bg-opacity-10 border border-ev-green border-opacity-20;
+  }
+
+  .status-moderate {
+    @apply text-ev-yellow bg-ev-yellow bg-opacity-10 border border-ev-yellow border-opacity-20;
+  }
+
+  .status-full {
+    @apply text-ev-red bg-ev-red bg-opacity-10 border border-ev-red border-opacity-20;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-ev-muted hover:text-gray-200 hover:bg-ev-border transition-all duration-150;
+  }
+
+  .nav-link.active {
+    @apply text-ev-green bg-ev-green bg-opacity-10;
+  }
+}
+
+/* Map container */
+.map-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Custom marker pulse */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.marker-pulse::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* Page fade-in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* QR scanner overlay */
+#qr-reader {
+  border: none !important;
+  background: transparent !important;
+}
+
+#qr-reader video {
+  border-radius: 12px;
+}
+
+#qr-reader__scan_region {
+  background: transparent !important;
+}
+
+#qr-reader__dashboard {
+  background: #111827 !important;
+  border: none !important;
+  padding: 8px 0 0 !important;
+}
+
+#qr-reader__dashboard_section_swaplink,
+#qr-reader__status_span {
+  color: #6B7280 !important;
+  font-size: 12px !important;
+  font-family: 'DM Sans', sans-serif !important;
+}
